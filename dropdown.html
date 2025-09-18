@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Select Prompt Example</title>
+  <style>
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .dialog {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    .dialog button {
+      margin-top: 10px;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <button onclick="testPrompt()">Open Select Prompt</button>
+  <p id="result"></p>
+
+  <script>
+    function selectPrompt(message, options) {
+      return new Promise((resolve) => {
+        // Overlay
+        let overlay = document.createElement("div");
+        overlay.className = "overlay";
+
+        // Dialog
+        let dialog = document.createElement("div");
+        dialog.className = "dialog";
+
+        // Message
+        let msg = document.createElement("p");
+        msg.textContent = message;
+        dialog.appendChild(msg);
+
+        // Select
+        let select = document.createElement("select");
+        select.id="select";
+        
+        options.forEach(opt => {
+          let option = document.createElement("option");
+          option.value = opt;
+          option.textContent = opt;
+          select.appendChild(option);
+        });
+        dialog.appendChild(select);
+
+        // OK button
+        let ok = document.createElement("button");
+        ok.textContent = "OK";
+        ok.onclick = () => {
+          document.body.removeChild(overlay);
+          resolve(select.value);
+        };
+        dialog.appendChild(ok);
+
+        overlay.appendChild(dialog);
+        document.body.appendChild(overlay);
+      });
+    }
+
+    async function testPrompt() {
+      let choice = await selectPrompt("Update status:", ["PROGRESS", "COMPLETED", "STOPED"]);
+      alert(`${typeof(choice)}`);
+      document.getElementById("result").textContent = "You chose: " + choice;
+    }
+  </script>
+</body>
+</html>
+
