@@ -174,6 +174,7 @@ window.orderByDate=()=>{
 // 
 window.ALL=()=>{
     flag_filter_task=0;
+    action="";
     localStorage.setItem("all_tasks",JSON.stringify(manager.setTasks));
     showTaskTable();
     // grater();
@@ -198,7 +199,7 @@ window.completeTask=()=>{
     action="completed";
    flag_filter_task=1; // flag toknow wich update casewas chooosen
    if(manager.setTasks.length>0){
-    var result= JSON.parse(localStorage.getItem("all_tasks")).filter((task)=>{//manager.setTasks.filter
+    var result= JSON.parse(JSON.stringify(manager.setTasks)).filter((task)=>{//manager.setTasks.filter
         return task.status==="COMPLETED";
     });
     // filter=JSON.parse(JSON.stringify(result));///
@@ -208,12 +209,12 @@ window.completeTask=()=>{
     filter=undefined;
     showTaskTable(filter);
    } 
-
+console.log(`BY COMPLETED: flag_filter_task: ${flag_filter_task} ** action: ${action}`);
    
 
-    console.log(`completed : ${JSON.stringify(result)}`);
+    // console.log(`completed : ${JSON.stringify(result)}`);
     
-    console.log(`OBJETO : ${JSON.stringify(manager.setTasks)}`);
+    // console.log(`OBJETO : ${JSON.stringify(manager.setTasks)}`);
     
 }
 
@@ -221,20 +222,38 @@ window.canceled_tasks=()=>{
     flag_filter_task=1; // flag to know wich update case was chooosen
     action="canceled";
     if(manager.setTasks.length>0){
-       var result= manager.setTasks.filter((task)=>{
+       var result= JSON.parse(JSON.stringify(manager.setTasks)).filter((task)=>{
         return task.status==="CANCELED";
     });
-       filter=JSON.parse(JSON.stringify(result));
+    //    filter=JSON.parse(JSON.stringify(result));
+    localStorage.setItem("all_tasks",JSON.stringify(result));
+         showTaskTable();
     }else{
         filter=undefined;
+        showTaskTable(filter);
     }
      
 
     console.log(`CANCELADAS : ${JSON.stringify(result)}`);
     console.log(`OBJETO : ${JSON.stringify(manager.setTasks)}`);
     //filter=JSON.parse(JSON.stringify(result));///
-    showTaskTable(filter);
+    
 
+}
+
+window.inProgress_tasks=()=>{
+  flag_filter_task=1; // flag to know wich update case was chooosen
+    action="in progress";
+    if(manager.setTasks.length>0){
+          var result= JSON.parse(JSON.stringify(manager.setTasks)).filter((task)=>{
+        return task.status==="IN PROGRESS";
+    });
+    localStorage.setItem("all_tasks",JSON.stringify(result));
+         showTaskTable();
+    }else{
+        filter=undefined;
+        showTaskTable(filter);
+    }
 }
 
 //  SELECTED CONTROL PROMP
@@ -281,12 +300,26 @@ function selectPrompt(message, options) {
 
      async function testPrompt(index){// await 
       let choice = await selectPrompt("Update status:", ["IN PROGRESS", "COMPLETED", "CANCELED"]);
-      
+      var result="";
       alert(`VALUE PERRA - ${choice}`); 
       manager.setTasks[index].set("status",choice);
       localStorage.setItem("all_tasks",JSON.stringify(manager.setTasks));
       if(flag_filter_task==1){
-        showTaskTable(filter);
+          if(action==="completed"){
+             result=JSON.parse(localStorage.getItem("all_tasks")).filter((task)=>{//manager.setTasks.filter
+             return task.status==="COMPLETED";
+           });
+
+          }else if(action==="canceled"){
+              result=JSON.parse(localStorage.getItem("all_tasks")).filter((task)=>{//manager.setTasks.filter
+             return task.status==="CANCELED";
+           });
+          }else{
+            //IN PROGRESSS
+          }
+        
+           localStorage.setItem("all_tasks",JSON.stringify(result));
+        showTaskTable();
       }else{
         showTaskTable();
       }
@@ -305,26 +338,30 @@ window.updateTask=(id)=>{
    var indexToUpdate= manager.setTasks.findIndex((task)=>{//.findIndex  JSON.parse(localStorage.getItem("all_tasks"))
        return task.id==id;
    })    
-   console.log(` RESULT + ${JSON.parse(localStorage.getItem("all_tasks"))[indexToUpdate].description} -ID: ${JSON.parse(localStorage.getItem("all_tasks"))[indexToUpdate].id}- INDEX: ${indexToUpdate} - ${typeof(JSON.parse(localStorage.getItem("all_tasks")))}`)
+//    console.log(` RESULT + ${JSON.parse(localStorage.getItem("all_tasks"))[indexToUpdate].description} -ID: ${JSON.parse(localStorage.getItem("all_tasks"))[indexToUpdate].id}- INDEX: ${indexToUpdate} - ${typeof(JSON.parse(localStorage.getItem("all_tasks")))}`)
     testPrompt(indexToUpdate);//to update TASK STATUS
     description=prompt("Update the description:");
     description= description || manager.setTasks[indexToUpdate].description; 
     manager.setTasks[indexToUpdate].set("description",description); 
-    localStorage.setItem("all_tasks",JSON.stringify(manager.setTasks));  
+    // localStorage.setItem("all_tasks",JSON.stringify(manager.setTasks));  
 //     filter=JSON.parse(JSON.stringify(localStorage.getItem("all_tasks"))); // update the FILTER
+    console.log(`BY UPDATE: flag_filter_task:${flag_filter_task} ** action ${action}`);
     if(flag_filter_task==1){
         
-        if(action=="completed"){
+        if(action==="completed"){
+            console.log("CHEMICAL");
         filter= JSON.parse(localStorage.getItem("all_tasks")).filter((task)=>{//manager.setTasks.filter
         return task.status==="COMPLETED";
            });
-        }else{
+        }else if(action==="canceled"){
          filter= JSON.parse(localStorage.getItem("all_tasks")).filter((task)=>{//manager.setTasks.filter
         return task.status==="CANCELED";
            });
+        }else{
+            //in progress
         }
-            
-    showTaskTable(filter);
+         localStorage.setItem("all_tasks",JSON.stringify(filter));   
+    showTaskTable();
     }else{
      showTaskTable();
     }
