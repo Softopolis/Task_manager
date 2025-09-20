@@ -14,12 +14,13 @@ if(!manager.setTasks.length>0){
 
 function grater(){
 
-    var may=JSON.parse(localStorage.getItem("all_tasks"))[0].id;
-    console.log(localStorage.getItem("all_tasks"));
-    for(var task_obj of JSON.parse(localStorage.getItem("all_tasks"))){
+    var may=manager.setTasks[0].id;
+    // console.log(`p ${may} ${localStorage.getItem("all_tasks")}`);
+    for(var task_obj of JSON.parse(JSON.stringify(manager.setTasks))){
         if(task_obj.id>may){
             may=task_obj.id;
         }
+        console.log(`MAYOR ES: ${may}`);
     }
 
     // may=JSON.parse(localStorage.getItem("all_tasks"))[0].id;
@@ -29,18 +30,14 @@ function grater(){
         //     may=task_obj.id;
         // }
     // }  
-    alert("EL MAYOR ES: "+may);
+    //  alert("EL MAYOR ES: "+may);
+    return may;
+   
 }
 
 function createId(){
-    var id_result,may=0;
-    // console.log(`OP VALUE=${op}`);
-    var currentIndex= op!=1?manager.setTasks.length:1;
-    // console.log("current ID: "+currentIndex);
-     //manager.setTasks[currentIndex-1].get("id")
-     //
      
-    return manager.setTasks.length>0? manager.setTasks[currentIndex-1].get("id")+1:1;//manager.setTasks[manager.setTasks.length-1].get("id")
+    return manager.setTasks.length>0? grater()+1:1;//manager.setTasks[manager.setTasks.length-1].get("id")
 //      return id_result;
 }
 
@@ -121,124 +118,55 @@ window.addNewTask=()=>{
 window.orderById=()=>{
     var queryUno="";
      console.log(`REPUTAAAA : flag_filter_task= ${flag_filter_task}; OP=${op} %% ${filter} `); 
-   if(flag_filter_task==1){
-     if(op==1){
-       console.log(filter.sort((task1,task2)=>task1.id-task2.id));
-       op=2;
-       console.log("WOLVERINE "+op+" - "+manager.setTasks[manager.setTasks.length-1].get("id"));
-       console.log("SABRETOOTH "+op +" - "+manager.setTasks[0].get("id"));
-       console.log(manager.setTasks);
-    //    last_index=manager.setTasks[manager.setTasks.length-1].id;
-    }else{
-        op=1;
-        console.log(filter.sort((task1,task2)=>task2.id-task1.id));
-        
-        console.log("SABRETOOTH "+op +" - "+manager.setTasks[0].get("id"));
-        console.log("WOLVERINE "+op+" - "+manager.setTasks[manager.setTasks.length-1].get("id"));
-       console.log(manager.setTasks);
-    //    last_index=manager.setTasks[0].id;
-    }
-      showTaskTable(filter);
-   }else{
-    //get the info directly JSON
+//  
     if(op==1){
-        manager.setTasks.sort((task1,task2)=>task1.id-task2.id);
-        //queryUno=JSON.parse(localStorage.getItem("all_tasks")).sort((task1,task2)=>task1.id-task2.id);
-        //console.log(`queryUno  = ${queryUno}`);
-        localStorage.setItem("all_tasks",JSON.stringify(manager.setTasks));
-        //JSON.parse(queryUno).sort((task1,task2)=>task1.id-task2.id);//filter.
-        //localStorage.setItem("all_tasks",JSON.stringify(queryUno));
-        // console.log(`MY PERRA ${filter}`);
-        // console.log(`MY PERRA DOS ${JSON.stringify(filter)}`);
-        //console.log(JSON.parse(JSON.stringify(localStorage.getItem("all_tasks"))).sort((task1,task2)=>task1.id-task2.id));//
-       op=2;
-       console.log("WOLVERINE "+op+" - "+manager.setTasks[manager.setTasks.length-1].get("id"));
-       console.log("SABRETOOTH "+op +" - "+manager.setTasks[0].get("id"));
-       console.log(manager.setTasks);
-    //    last_index=manager.setTasks[manager.setTasks.length-1].id;
+        queryUno=JSON.parse(localStorage.getItem("all_tasks")).sort((task1,task2)=>task1.id-task2.id);       
+        localStorage.setItem("all_tasks",JSON.stringify(queryUno));        
+        op=2;
+    //  
     showTaskTable();
-    }else{
-  
-        console.log("REPUUUUUUUUUTA");
+    }else{  
+        
         op=1;
-         manager.setTasks.sort((task1,task2)=>task2.id-task1.id);
-        //queryUno=JSON.parse(localStorage.getItem("all_tasks")).sort((task1,task2)=>task2.id-task1.id);
-        // console.log(`queryUno  = ${queryUno[0].id}`);
-        localStorage.setItem("all_tasks",JSON.stringify(manager.setTasks));
-        // JSON.parse(queryUno).sort((task1,task2)=>task2.id-task1.id);//filter.
-        // localStorage.setItem("all_tasks",JSON.stringify(queryUno));
-        // console.log("REPUUUUUUUUUTA uno: "+JSON.stringify(filter));
-
-
-        //console.log(`THIS IS FILTER  ${filter[0].id}`);
-        console.log("SABRETOOTH "+op +" - "+manager.setTasks[0].get("id"));
-        console.log("WOLVERINE "+op+" - "+manager.setTasks[manager.setTasks.length-1].get("id"));
-       //console.log(manager.setTasks);
-    //    last_index=manager.setTasks[0].id;
+         queryUno=JSON.parse(localStorage.getItem("all_tasks")).sort((task1,task2)=>task2.id-task1.id);        
+        localStorage.setItem("all_tasks",JSON.stringify(queryUno));       
     showTaskTable();
         
-    }
-
-     
+    } 
     
-   }  
+}   
   
     
-    // console.log(`LAST INDEX ${last_index}`);
-    
-    
-
-}
-// window.updateTask=(id)=>{
-//     var index_update= manager.setTasks.findIndex((task)=>{
-//            return task.id==id;
-//     });
-//     var statado=prompt("Input a new STATUS");
-//     var decription=prompt("Input a new description");
-
-
-// }
+   
 
 window.orderByDate=()=>{
     // console.log(`CAPCOM : ${JSON.parse(JSON.stringify(localStorage.getItem("all_tasks")))}`);
     // console.log(`${JSON.parse(JSON.stringify(localStorage.getItem("all_tasks"))).length}`);
     console.log(`ORDER BY DATE : flag_filter_task= ${flag_filter_task}; optionDate=${optionDate} %% ${filter} `);
     
-        if(flag_filter_task==1){
+    
+        var queryResultTwo="";
         if(optionDate==1){
              optionDate=2;
-             filter.sort((date1,date2)=>{
+             queryResultTwo=JSON.parse(localStorage.getItem("all_tasks")).sort((date1,date2)=>{  //manager.setTasks.sort((date1,date2) filter
              return new Date(date1.date) - new Date(date2.date);
 
                    });
+             
+             localStorage.setItem("all_tasks",JSON.stringify(queryResultTwo));
+             showTaskTable();      
         }else{
                 optionDate=1;
-                filter.sort((date1,date2)=>{
-                 return new Date(date2.date) - new Date(date1.date);
-
-        });
-       }
-
-       showTaskTable(filter);
-    }else{
-        if(optionDate==1){
-             optionDate=2;
-             manager.setTasks.sort((date1,date2)=>{  //manager.setTasks.sort((date1,date2) filter
-             return new Date(date1.date) - new Date(date2.date);
-
-                   });
-             localStorage.setItem("all_tasks",JSON.stringify(manager.setTasks));      
-        }else{
-                optionDate=1;
-                manager.setTasks.sort((date1,date2)=>{//manager.setTasks.sort((date1,date2)
+               queryResultTwo=JSON.parse(localStorage.getItem("all_tasks")).sort((date1,date2)=>{//manager.setTasks.sort((date1,date2)
                  return new Date(date2.date) - new Date(date1.date);
 
                    });
 
-              localStorage.setItem("all_tasks",JSON.stringify(manager.setTasks));
+              localStorage.setItem("all_tasks",JSON.stringify(queryResultTwo));
+              showTaskTable();
          }
-         showTaskTable();
-    }
+         
+    
     
         
     
@@ -246,7 +174,7 @@ window.orderByDate=()=>{
 // 
 window.ALL=()=>{
     flag_filter_task=0;
-
+    localStorage.setItem("all_tasks",JSON.stringify(manager.setTasks));
     showTaskTable();
     // grater();
     // JSON.parse(JSON.stringify(localStorage.getItem("all_tasks")));
@@ -273,9 +201,12 @@ window.completeTask=()=>{
     var result= JSON.parse(localStorage.getItem("all_tasks")).filter((task)=>{//manager.setTasks.filter
         return task.status==="COMPLETED";
     });
-    filter=JSON.parse(JSON.stringify(result));///
+    // filter=JSON.parse(JSON.stringify(result));///
+    localStorage.setItem("all_tasks",JSON.stringify(result));
+    showTaskTable();
    }else{
     filter=undefined;
+    showTaskTable(filter);
    } 
 
    
@@ -283,7 +214,7 @@ window.completeTask=()=>{
     console.log(`completed : ${JSON.stringify(result)}`);
     
     console.log(`OBJETO : ${JSON.stringify(manager.setTasks)}`);
-    showTaskTable(filter);
+    
 }
 
 window.canceled_tasks=()=>{
