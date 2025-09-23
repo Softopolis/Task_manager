@@ -21,18 +21,8 @@ function grater(){
             may=task_obj.id;
         }
         console.log(`MAYOR ES: ${may}`);
-    }
-
-    // may=JSON.parse(localStorage.getItem("all_tasks"))[0].id;
-    
-    // for(var task_obj of  JSON.parse(localStorage.getItem("all_tasaks"))){
-        // if(task_obj.id>may){
-        //     may=task_obj.id;
-        // }
-    // }  
-    //  alert("EL MAYOR ES: "+may);
-    return may;
-   
+    }    
+    return may;   
 }
 
 function createId(){
