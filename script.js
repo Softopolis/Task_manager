@@ -8,6 +8,7 @@ let action="";
 let filter="[{}]"; // to store the current query consult COMPLETED, IN PROGRESS, CANCELED task.
 let index=0;
 // manager
+
 if(!manager.setTasks.length>0){
    localStorage.setItem("all_tasks",JSON.stringify([]));
 }
@@ -38,7 +39,7 @@ function createDate(){
     // console.log(`${day<=9} - day==${day}`);
     day= day<=9?new String("0"+day):day;
     month=month<=9?new String("0"+month):month;
-    let new_date= `${month}/${day}/${Math.floor(Math.random()*(new Date().getFullYear()-2019)+(2019))}`;
+    let new_date= `${Math.floor(Math.random()*(new Date().getFullYear()-2019)+(2019))}-${month}-${day}`;
     return new_date; 
 }
 
@@ -77,6 +78,7 @@ function FillTable(){
     filter=JSON.parse(localStorage.getItem("all_tasks")); 
 
     console.log("OPTIMUS -"+filter[0].description +"-----"+localStorage.getItem("all_tasks"));
+    
 }
 
 window.addNewTask=()=>{

@@ -15,6 +15,8 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-social/bootstrap-social.css">
 
 
     <link rel="stylesheet" href="./style.css">
@@ -24,35 +26,35 @@
     <div class="container" id="main">
        <div class="container" id="container" >
             <h1 class="display-1 text-light mb-2" >TASK <i class="fa-solid fa-chart-pie"></i>  MANAGER</h1>
-            <div class="alert alert-secondary text-center" role="alert">Balance</div>
+            <div class="alert alert-secondary text-center" role="alert" id="balance"><h1><i class="fa-solid fa-list-check"></i></h1></div>
        </div>
        <!-- FORMULARIO -->
         <div class="container" id="formulario">
-            <div class="form-floating col-5">
+            <div class="form-floating col-5" id="part1">
                 <input type="text" class="form-control" id="description" placeholder="description">
                 <label for="description">Description</label>
             </div>
-            <div class="form-floating col-5">
+            <div class="form-floating col-5" id="part2">
                 <input type="date" class="form-control" id="date" placeholder="date">
                 <label for="date">Deadline: </label>
             </div>
-            <div class="col-2">
-               <button class="btn btn-primary w-100" onclick="addNewTask()"> Add Task</button>
+            <div class="col-2" id="part3">
+               <button class="btn btn-primary w-100" onclick="addNewTask()" id="addTask"> Add Task</button>
             </div>
             <label for="" id="selected"></label>
         </div>
        <div class="container" id="controls">
         <!-- TO FILTER -->
-            <button type="button" class="btn btn-outline-primary" onclick="orderById()">ORDER ID</button>
-            <button type="button" class="btn btn-outline-warning" onclick="orderByDate()">ORDER BY DATE</button>
-            <button type="button" class="btn btn-outline-success" onclick="completeTask()">STATUS COMPLETED</button>
-            <button type="button" class="btn btn-outline-warning" onclick="ALL()">ALL TASKS</button>
-            <button type="button" class="btn btn-outline-danger" onclick="canceled_tasks()">STATUS CANCELED</button>
-            <button type="button" class="btn btn-outline-warning" onclick="inProgress_tasks()">STATUS IN PROGRESS</button>
+            <button type="button" id="orderID" class="btn btn-outline-primary" onclick="orderById()">ORDER BY ID</button>
+            <button type="button" id="orderDate" class="btn btn-outline-warning" onclick="orderByDate()">ORDER BY DATE</button>
+            <button type="button" id="completeTask" class="btn btn-outline-success" onclick="completeTask()">STATUS COMPLETED</button>
+            <button type="button" id="ALL" class="btn btn-outline-warning" onclick="ALL()">ALL TASKS</button>
+            <button type="button" id="cancels" class="btn btn-outline-danger" onclick="canceled_tasks()">STATUS CANCELED</button>
+            <button type="button" id="progress" class="btn btn-outline-warning" onclick="inProgress_tasks()">STATUS IN PROGRESS</button>
        </div>
        <div class="container" id="table_result" >
            <!-- TABLE START -->
-          <table class="table table table-hover col" >
+          <table class="table table table-hover col" id="main_table">
              <thead>
                 <tr>
                     <th scope="col-1">ID</th>
@@ -70,11 +72,24 @@
   <!-- TABLE END -->
 
        </div>
-        
+    <!-- footer -->
+    <footer>
+        <div class="container" id="social_media">
+          <a  class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/profile.php?id=100015241054331" target="_blank"><i class="fa fa-facebook"></i></a>
+          <a class="btn btn-social-icon btn-linkedin" target="_blank" href="http://www.linkedin.com/in/"><i class="fa fa-linkedin"></i></a>
+          <a class="btn btn-social-icon btn-twitter" target="_blank" href="http://twitter.com/"><i class="fa fa-twitter"></i></a>
+        </div>
+        <p id="footer_content">Copyright &copy; 2025  John Mendoza H. All rights reserved.`</p>
+    </footer>
     </div>
-    
    
+ 
+
+    <script>
+        
+    </script>
     <script type="module" src="./script.js"></script>
 </body>
+    
 </html>
 
